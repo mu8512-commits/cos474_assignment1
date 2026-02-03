@@ -1,0 +1,12 @@
+sbatch/
+logs/
+*/objs/
+*.swp
+*.swo
+*/core.*
+*.o
+*.ppm
+*.log
+*.dat
+*.png
+prog4_sqrt/sqrt
