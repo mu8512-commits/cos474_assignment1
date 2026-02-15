@@ -248,6 +248,8 @@ void kMeansThread(double *data, double *clusterCentroids, int *clusterAssignment
   args.numThreads = (int)std::thread::hardware_concurrency();
   if (args.numThreads <= 0) args.numThreads = 4; // safe fallback
 
+  printf("Parallelzing using threads: %d \n", args.numThreads);
+
   // Initialize arrays to track cost
   for (int k = 0; k < K; k++) {
     prevCost[k] = 1e30;
