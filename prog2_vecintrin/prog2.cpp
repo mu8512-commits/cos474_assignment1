@@ -168,7 +168,6 @@ float arraySumVector(float* values, int N) {
 
     __prog2_vec_float vecSum = _prog2_vset_float(0.0f);
 
-    // 1) Vector accumulate
     // this is absed on the assumption that VECTOR_WIDTH is a factor of N 
     // all of these elements are VECTOR_WIDTH vectors
     for (int i = 0; i < N; i += VECTOR_WIDTH) {
@@ -181,11 +180,12 @@ float arraySumVector(float* values, int N) {
     // 2) Store vector lanes to scalar temp array
     float tmp[VECTOR_WIDTH];
     
-    // Initialize to avoid any chance of uninitialized read (paranoid-safe)
+    // Initialize to avoid any chance of uninitialized read
     for (int k = 0; k < VECTOR_WIDTH; k++) tmp[k] = 0.0f;
     _prog2_vstore_float(tmp, vecSum, maskAll);
 
     // 3) Scalar sum across lanes
+    // this can be vectorized but this is current;y fine 
     float sum = 0.0f;
     for (int k = 0; k < VECTOR_WIDTH; k++) {
         sum += tmp[k];

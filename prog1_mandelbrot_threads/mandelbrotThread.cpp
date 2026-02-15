@@ -64,7 +64,6 @@ void workerThreadStart_v2(WorkerArgs * const args) {
     const int H   = (int)args->height;
 
     // Tune this: smaller => better balance, more overhead.
-    // Start with 1 or 2 for Mandelbrot rows.
     const int CHUNK = 1;
 
     for (int startRow = tid * CHUNK; startRow < H; startRow += nt * CHUNK) {

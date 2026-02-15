@@ -42,7 +42,10 @@ int main() {
         // starter code populates array with random input values
         // values[i] = .001f + 2.998f * static_cast<float>(rand()) / RAND_MAX;
         
+        // This the greatest utility 
         values[i] = 2.999999f; 
+
+        // This is the worst utility. 
         // ispc means that we that of the instances wait for each other in one core 
         // if ((i % 8) == 0) values[i] = 2.999f;  // slowest (near 3)
         // else              values[i] = 1.0f;    // fastest (near 1)

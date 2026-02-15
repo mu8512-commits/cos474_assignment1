@@ -36,14 +36,13 @@ static inline __m256 mm256_abs_ps(__m256 x) {
 }
 
 // Computes sqrt-like output for N floats in `values` into `output`.
-// (This AVX2 version uses hardware rsqrt + 2 Newton refinements;
 void sqrt_avx2(int N, float startGuess, float* values, float* output) {
     const int W = 8;
     int i = 0;
 
     const __m256 one   = _mm256_set1_ps(1.0f);
     const __m256 half  = _mm256_set1_ps(0.5f);
-    const __m256 eps   = _mm256_set1_ps(1e-4f);   // <-- MUST match your serial epsilon
+    const __m256 eps   = _mm256_set1_ps(1e-4f); 
     const __m256 zero  = _mm256_set1_ps(0.0f);
 
     // Safety cap to avoid infinite loops if something goes wrong (match serial if it has one)
@@ -64,9 +63,11 @@ void sqrt_avx2(int N, float startGuess, float* values, float* output) {
             __m256 invx2 = _mm256_div_ps(one, x2);
             __m256 f    = _mm256_sub_ps(invx2, S);
 
-            // Check convergence: |f| > eps  => still active
+            // Check convergence: |f| > eps  => still active and have where to do
             __m256 absf = mm256_abs_ps(f);
-            __m256 need = _mm256_cmp_ps(absf, eps, _CMP_GT_OQ); // mask where not converged
+
+            // compares 32 bit elements in in array a vs 32 bit elements in array b with operator
+            __m256 need = _mm256_cmp_ps(absf, eps, _CMP_GT_OQ); // Greater-than (ordered, non-signaling)
 
             // If no lanes need work, break
             int need_mask = _mm256_movemask_ps(need);
